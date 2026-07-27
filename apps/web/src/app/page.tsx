@@ -21,8 +21,9 @@ export default function Home() {
     try {
       const data = await sendChatMessage(university, question);
       setResponse(data);
-    } catch (err: any) {
-      setError(err.message || "An unexpected error occurred.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "An unexpected error occurred.";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -95,7 +96,7 @@ export default function Home() {
                 {response.sources.map((source, index) => (
                   <div key={index} className="source-card">
                     <div className="source-title">{source.source}</div>
-                    <div className="source-snippet">"{source.text_snippet}"</div>
+                    <div className="source-snippet">&quot;{source.text_snippet}&quot;</div>
                   </div>
                 ))}
               </div>
