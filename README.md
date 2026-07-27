@@ -2,6 +2,7 @@
 
 [![CI (api)](https://github.com/saajann/openuni/actions/workflows/ci-api.yml/badge.svg)](https://github.com/saajann/openuni/actions/workflows/ci-api.yml)
 [![CI (ingestion)](https://github.com/saajann/openuni/actions/workflows/ci-ingestion.yml/badge.svg)](https://github.com/saajann/openuni/actions/workflows/ci-ingestion.yml)
+[![CI (web)](https://github.com/saajann/openuni/actions/workflows/ci-web.yml/badge.svg)](https://github.com/saajann/openuni/actions/workflows/ci-web.yml)
 
 > **Open-source AI assistant for university students.**
 
