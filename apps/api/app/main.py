@@ -14,6 +14,7 @@ from contextlib import asynccontextmanager
 import httpx
 import psycopg
 from fastapi import FastAPI, Request, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
@@ -80,6 +81,15 @@ def create_app() -> FastAPI:
         docs_url="/docs" if settings.is_development else None,
         redoc_url="/redoc" if settings.is_development else None,
         lifespan=lifespan,
+    )
+
+    # ── CORS ──────────────────────────────────────────────────────
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.cors_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
     # ── Global exception handler ──────────────────────────────────────────────
@@ -165,6 +175,16 @@ def create_app() -> FastAPI:
             checks["qdrant"] = "ok"
         except Exception as exc:
             checks["qdrant"] = f"error: {exc}"
+            all_ok = False
+
+        # Ollama (required for retrieval embeddings regardless of LLM provider)
+        try:
+            async with httpx.AsyncClient(timeout=5) as client:
+                resp = await client.get(f"{settings_obj.ollama_url}/api/tags")
+                resp.raise_for_status()
+            checks["ollama"] = "ok"
+        except Exception as exc:
+            checks["ollama"] = f"error: {exc}"
             all_ok = False
 
         http_status = status.HTTP_200_OK if all_ok else status.HTTP_503_SERVICE_UNAVAILABLE
