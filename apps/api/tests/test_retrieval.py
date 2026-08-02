@@ -69,7 +69,10 @@ def test_retrieve_chunks_returns_ranked_matches(
                         score=0.91,
                     ),
                     SimpleNamespace(
-                        payload={"chunk_text": "Tuition info.", "source_url_or_filename": "fees.md"},
+                        payload={
+                            "chunk_text": "Tuition info.",
+                            "source_url_or_filename": "fees.md",
+                        },
                         score=0.74,
                     ),
                 ]
